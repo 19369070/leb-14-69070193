@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile Card</title>
+
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            background-color: #e0e0e0;;
+        }
+
+        .card {
+            background-color: rgba(8, 2, 0, 0);
+            width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #c4e00e;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            display: flex;
+            gap: 20px;
+        }
+
+        .profile {
+            background-color: #adf5b9;
+            width: 50%;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .profile img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+        }
+
+        .todo {
+            background-color: #adf5b9;
+            width: 50%;
+            padding: 20px;
+        }
+
+        .todo-input {
+            width: 180px;
+            padding: 5px;
+        }
+
+        .add-btn {
+            padding: 5px;
+        }
+
+        .delete-btn {
+            margin-left: 5px;
+        }
+
+        .todo-list li {
+            margin: 15px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+
+        <div class="profile">
+            <img src="profile.jpg" alt="รูปโปรไฟล์">
+
+            <h1>ศศิพิมพ์ แซ่เอี๋ยว</h1>
+
+            <p>69070193 IT</p>
+
+            <p>พูดถึงเรื่องความรักไอ้ผมก็โดนsensor<br>
+                ตอนเด็กติดแว๊นอะเป็นวิถี biker<br>
+                เคยเป็นเด็กหน้าห้องก็เลยต้องจด lecture<br>
+                ฟังแต่เพลงเก่าๆเพราะเราชอบของไทยเดิม<br>
+                เห็นเธอฟังเพลงแร็พก็เลยอยากเป็น rapper</p>
+
+            <a href="https://www.instagram.com/_sxspim/">
+                ลิงก์ติดต่อ
+            </a>
+        </div>
+
+        <div class="todo">
+            <h2>To-do List</h2>
+
+            <input
+                type="text"
+                id="todo-input"
+                class="todo-input"
+                placeholder="พิมพ์สิ่งที่ต้องทำ..."
+            >
+
+            <button type="button" id="add-btn" class="add-btn">
+                เพิ่ม
+            </button>
+
+            <ul id="todo-list" class="todo-list">
+                <li>
+                    อ่านหนังสือ
+                    <button type="button" class="delete-btn">ลบ</button>
+                </li>
+
+                <li>
+                    ทำPSCP
+                    <button type="button" class="delete-btn">ลบ</button>
+                </li>
+
+                <li>
+                    ซักผ้า
+                    <button type="button" class="delete-btn">ลบ</button>
+                </li>
+
+                <li>
+                    เตรียมตัวสอบ
+                    <button type="button" class="delete-btn">ลบ</button>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+<script src="script.js"></script>
+</body>
+</html>

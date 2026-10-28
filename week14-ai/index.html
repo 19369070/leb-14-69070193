@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Profile Card + To-Do | ศศิพิมพ์ แซ่เอี๋ยว</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --bg:#060a08;
+    --card:#0b120e;
+    --green:#00ff88;
+    --green-dim:#00cc6a;
+    --green-soft:rgba(0,255,136,.12);
+    --border:rgba(0,255,136,.22);
+    --text:#e8f5ec;
+    --muted:#8aa896;
+  }
+  body{
+    min-height:100vh;
+    background: radial-gradient(800px 400px at 20% 10%, rgba(0,255,136,.12), transparent 60%),
+                radial-gradient(700px 500px at 90% 90%, rgba(0,255,136,.08), transparent 60%),
+                var(--bg);
+    color:var(--text);
+    font-family: "Segoe UI", "Noto Sans Thai", Tahoma, sans-serif;
+    display:flex; align-items:center; justify-content:center;
+    padding:32px 16px;
+  }
+  #main-card{
+    width:100%; max-width:920px;
+    background: linear-gradient(180deg, #0d1510 0%, #080d0a 100%);
+    border:1px solid var(--border);
+    border-radius:22px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.6), 0 20px 80px rgba(0,0,0,.6), 0 0 60px rgba(0,255,136,.12);
+    overflow:hidden;
+    display:flex;
+    position:relative;
+  }
+  #main-card::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+  }
+  /* LEFT : PROFILE */
+  #profile-section{
+    flex:1.05;
+    padding:36px 32px;
+    background:
+      radial-gradient(300px 200px at 30% 0%, rgba(0,255,136,.15), transparent 70%);
+    border-right:1px solid var(--border);
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+  }
+  #profile-img{
+    width:130px; height:130px; border-radius:50%;
+    object-fit:cover; display:block;
+    border:4px solid #06281a;
+    outline:2px solid var(--green);
+    box-shadow:0 0 30px rgba(0,255,136,.5);
+    margin-bottom:18px;
+    background:#06281a;
+  }
+  #profile-name{ font-size:26px; font-weight:800; letter-spacing:.3px; }
+  #profile-name span{ color:var(--green); text-shadow:0 0 18px rgba(0,255,136,.6); }
+  .badge-row{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:14px 0 16px; }
+  #student-id, #major{
+    font-size:13px; font-weight:700;
+    padding:6px 12px; border-radius:999px;
+    border:1px solid var(--border);
+    background:var(--green-soft);
+    color:var(--green);
+  }
+  #major{ background:var(--green); color:#02120a; border-color:var(--green); }
+  #bio{
+    font-size:14.5px; line-height:1.9; color:#c6d9cc;
+    background:rgba(255,255,255,.03);
+    border:1px dashed rgba(0,255,136,.3);
+    border-radius:14px; padding:14px 15px; margin-bottom:18px;
+  }
+  #instagram-link{
+    display:inline-flex; align-items:center; gap:8px;
+    text-decoration:none; font-weight:700; font-size:14px;
+    color:#02120a; background:var(--green);
+    padding:10px 18px; border-radius:999px;
+    box-shadow:0 6px 24px rgba(0,255,136,.35);
+    transition:.2s;
+  }
+  #instagram-link:hover{ transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,255,136,.5); }
+
+  /* RIGHT : TODO */
+  #todo-section{ flex:1.2; padding:36px 32px; display:flex; flex-direction:column; }
+  #todo-title{ font-size:22px; font-weight:800; display:flex; align-items:center; gap:10px; }
+  #todo-title::before{ content:"✓"; width:32px; height:32px; display:grid; place-items:center; background:var(--green-soft); border:1px solid var(--border); border-radius:10px; color:var(--green); font-size:18px; }
+  #todo-subtitle{ color:var(--muted); font-size:13.5px; margin:6px 0 18px; }
+  #todo-form{ display:flex; gap:10px; margin-bottom:16px; }
+  #todo-input{
+    flex:1; padding:12px 14px; border-radius:12px;
+    background:#060c08; border:1px solid var(--border);
+    color:var(--text); font-size:15px; outline:none;
+  }
+  #todo-input:focus{ border-color:var(--green); box-shadow:0 0 0 3px rgba(0,255,136,.15); }
+  #add-btn{
+    padding:12px 18px; border-radius:12px; border:none; cursor:pointer;
+    background:var(--green); color:#02120a; font-weight:800; font-size:15px;
+    transition:.2s; white-space:nowrap;
+  }
+  #add-btn:hover{ background:#4dff9f; transform:translateY(-1px); }
+  #todo-list{ list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .todo-item{
+    display:flex; align-items:center; gap:12px;
+    background:rgba(0,255,136,.06);
+    border:1px solid rgba(0,255,136,.16);
+    padding:11px 12px; border-radius:14px;
+    animation:pop .22s ease;
+  }
+  @keyframes pop{ from{ transform:scale(.97); opacity:0 } to{ transform:scale(1); opacity:1 } }
+  .todo-check{ width:22px; height:22px; accent-color:#00ff88; cursor:pointer; flex-shrink:0; }
+  .todo-text{ flex:1; font-size:15px; }
+  .todo-item.done .todo-text{ text-decoration:line-through; color:var(--muted); }
+  .todo-item.done{ opacity:.65; }
+  .delete-btn{
+    background:transparent; color:#ff6b6b;
+    border:1px solid rgba(255,107,107,.4);
+    padding:6px 11px; border-radius:10px; cursor:pointer; font-size:13px; font-weight:700;
+    transition:.2s; flex-shrink:0;
+  }
+  .delete-btn:hover{ background:#ff6b6b; color:#180505; }
+  #todo-count{ margin-top:16px; font-size:13px; color:var(--muted); }
+  #todo-count b{ color:var(--green); }
+
+  @media (max-width:760px){
+    #main-card{ flex-direction:column; }
+    #profile-section{ border-right:none; border-bottom:1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<main id="main-card">
+  <!-- ซ้าย : โปรไฟล์ -->
+  <section id="profile-section">
+    <img id="profile-img" src="profile.jpg" alt="รูปโปรไฟล์ ศศิพิมพ์ แซ่เอี๋ยว" />
+    <h1 id="profile-name">ศศิพิมพ์ <span>แซ่เอี๋ยว</span></h1>
+
+    <div class="badge-row">
+      <div id="student-id">🎓 69070193</div>
+      <div id="major">สาขา IT</div>
+    </div>
+
+    <p id="bio">
+      พูดถึงเรื่องความรักไอ้ผมก็โดน sensor 😶‍🌫️<br>
+      ตอนเด็กติดแว๊นอะเป็นวิถี biker 🏍️<br>
+      เคยเป็นเด็กหน้าห้องก็เลยต้องจด lecture 📝<br>
+      ฟังแต่เพลงเก่า ๆ เพราะเราชอบของไทยเดิม 🎶<br>
+      เห็นเธอฟังเพลงแร็พก็เลยอยากเป็น rapper 🎤
+    </p>
+
+    <a id="instagram-link" href="https://www.instagram.com/_sxspim/" target="_blank" rel="noopener">
+      📸 @_sxspim • Instagram
+    </a>
+  </section>
+
+  <!-- ขวา : To-Do -->
+  <section id="todo-section">
+    <h2 id="todo-title">To-Do List</h2>
+    <p id="todo-subtitle">จัดการงานสไตล์เขียวเริ่ดๆ — ติ๊กเมื่อเสร็จ ลบเมื่อไม่เอา</p>
+
+    <form id="todo-form">
+      <input id="todo-input" type="text" placeholder="พิมพ์งานใหม่ เช่น ซักผ้า…" maxlength="80" autocomplete="off" />
+      <button id="add-btn" type="submit">+ เพิ่ม</button>
+    </form>
+
+    <ul id="todo-list"></ul>
+    <p id="todo-count">เหลือ <b id="remain-num">0</b> งาน • เสร็จแล้ว <b id="done-num">0</b> งาน</p>
+  </section>
+</main>
+
+<!-- ตรรกะ To-Do List ถูกย้ายไปไว้ที่ไฟล์ script.js (เพิ่ม / ลบ / บันทึกใน Local Storage) -->
+<script src="script.js"></script>
+</body>
+</html>
